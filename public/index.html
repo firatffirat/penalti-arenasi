@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#07111e">
+  <title>Penaltı Arenası</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <div class="bg-glow"></div>
+  <header class="topbar">
+    <div class="brand"><span class="brand-mark">⚽</span><span>PENALTI <b>ARENASI</b></span></div>
+    <div class="online"><i></i> ONLINE</div>
+  </header>
+
+  <main>
+    <section id="home" class="panel home-panel">
+      <div class="eyebrow">2 OYUNCULU • ONLINE PENALTI SERİSİ</div>
+      <h1>SAHAYA<br><em>ÇIKMAYA</em> HAZIR MISIN?</h1>
+      <p class="muted">Arkadaşınla karşı karşıya gel. Takımını seç, penaltı serisini kazan.</p>
+      <div class="home-actions">
+        <button id="createBtn" class="btn primary">ODA OLUŞTUR</button>
+        <div class="join-row">
+          <input id="joinCode" maxlength="5" placeholder="ODA KODU" autocomplete="off">
+          <button id="joinBtn" class="btn secondary">KATIL</button>
+        </div>
+      </div>
+      <div class="name-row"><label for="playerName">OYUNCU ADI</label><input id="playerName" maxlength="16" placeholder="Adını yaz"></div>
+      <div class="tiny-note">Bir oyuncu oda kurar, diğeri oda koduyla katılır.</div>
+    </section>
+
+    <section id="lobby" class="hidden">
+      <div class="lobby-head">
+        <div><div class="eyebrow">MAÇ LOBİSİ</div><h2>TAKIMINI SEÇ</h2></div>
+        <div class="room-code-wrap"><span>ODA KODU</span><button id="copyCode" class="room-code">-----</button></div>
+      </div>
+      <div class="players-strip">
+        <div class="player-card" id="player0"><span class="player-label">OYUNCU 1 • EV SAHİBİ</span><b class="p-name">Bekleniyor</b><span class="p-team">Takım seçmedi</span><span class="status">BEKLİYOR</span></div>
+        <div class="versus">VS</div>
+        <div class="player-card" id="player1"><span class="player-label">OYUNCU 2</span><b class="p-name">Rakip bekleniyor</b><span class="p-team">Takım seçmedi</span><span class="status">BEKLİYOR</span></div>
+      </div>
+      <div class="section-title"><span>KULÜBÜNÜ SEÇ</span><small>Logoya dokunarak seç</small></div>
+      <div id="teams" class="team-grid"></div>
+      <div class="lobby-footer">
+        <div id="lobbyMessage" class="muted">Önce takımını seç.</div>
+        <div class="lobby-buttons">
+          <button id="readyBtn" class="btn secondary" disabled>HAZIR</button>
+          <button id="startBtn" class="btn primary" disabled>MAÇI BAŞLAT</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="game" class="hidden">
+      <div class="scorebar">
+        <div class="score-team"><span id="gameLogo0" class="mini-crest">RM</span><b id="gameTeam0">EV SAHİBİ</b><div id="dots0" class="dots"></div></div>
+        <div class="score-center"><div id="score">0 - 0</div><small id="roundLabel">PENALTI 1 / 5</small></div>
+        <div class="score-team right"><span id="gameLogo1" class="mini-crest">FCB</span><b id="gameTeam1">DEPLASMAN</b><div id="dots1" class="dots"></div></div>
+      </div>
+      <div id="turnNotice" class="turn-notice">ŞUT SIRASI SENDE</div>
+      <div class="pitch-scene" id="scene">
+        <div class="stadium-lights"></div>
+        <div class="crowd"></div>
+        <div class="goal">
+          <div class="net"></div><div class="post left-post"></div><div class="post right-post"></div><div class="crossbar"></div>
+          <div id="keeper" class="keeper"><span>GK</span></div>
+        </div>
+        <div id="striker" class="striker"><span id="strikerNumber">9</span></div>
+        <div id="ball" class="ball"></div>
+        <div class="pitch-line"></div>
+        <div class="adboard">PENALTI ARENASI</div>
+        <div id="resultText" class="result-text"></div>
+      </div>
+      <div class="controls">
+        <div class="control-heading" id="controlHeading">ŞUT YÖNÜNÜ SEÇ</div>
+        <div class="direction-buttons">
+          <button class="direction" data-dir="left"><span>↖</span>SOL</button>
+          <button class="direction" data-dir="center"><span>↑</span>ORTA</button>
+          <button class="direction" data-dir="right"><span>↗</span>SAĞ</button>
+        </div>
+        <div id="selectionStatus" class="selection-status">Seçimin rakibinden gizli.</div>
+      </div>
+    </section>
+
+    <section id="finished" class="panel finish-panel hidden">
+      <div class="eyebrow">PENALTI SERİSİ TAMAMLANDI</div>
+      <div class="trophy">🏆</div><h2 id="winnerText">KAZANAN</h2><div id="finalScore" class="final-score">0 - 0</div>
+      <p id="finishMessage" class="muted">Harika maçtı!</p>
+      <button id="rematchBtn" class="btn primary">RÖVANŞ İSTE</button>
+      <button id="homeBtn" class="btn secondary">ANA MENÜ</button>
+    </section>
+  </main>
+  <div id="toast" class="toast"></div>
+  <audio id="kickSound" preload="auto"></audio>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/app.js"></script>
+</body>
+</html>
