@@ -69,6 +69,7 @@ function animateResult(result){
   const keeper=$("keeper"),ball=$("ball"),striker=$("striker"),txt=$("resultText");
   const x={left:-105,center:0,right:105};
   striker.style.transform="translateX(-50%) translateY(-22px) rotate(-8deg)";
+  playSound("kick",0.75);
   setTimeout(()=>{
     ball.style.left=`calc(50% + ${x[result.shotDirection]}px)`;
     ball.style.bottom=result.goal?"47%":"43%";
@@ -85,15 +86,20 @@ function animateResult(result){
     lastResult=null;
   },3200);
 }
+const soundFiles = {
+  kick: new Audio("/sounds/kick.wav"),
+  goal: new Audio("/sounds/goal.wav"),
+  save: new Audio("/sounds/save.wav"),
+  crowd: new Audio("/sounds/crowd.wav")
+};
+function playSound(key, volume=0.8){
+  const sound = soundFiles[key];
+  if(!sound) return;
+  try { sound.pause(); sound.currentTime=0; sound.volume=volume; sound.play().catch(()=>{}); } catch(e) {}
+}
 function playTone(goal){
-  try{
-    const ctx=new (window.AudioContext||window.webkitAudioContext)();
-    const osc=ctx.createOscillator(),gain=ctx.createGain();
-    osc.type="triangle";osc.frequency.setValueAtTime(goal?180:420,ctx.currentTime);
-    osc.frequency.exponentialRampToValueAtTime(goal?75:180,ctx.currentTime+.35);
-    gain.gain.setValueAtTime(.0001,ctx.currentTime);gain.gain.exponentialRampToValueAtTime(.18,ctx.currentTime+.02);gain.gain.exponentialRampToValueAtTime(.0001,ctx.currentTime+.5);
-    osc.connect(gain);gain.connect(ctx.destination);osc.start();osc.stop(ctx.currentTime+.52);
-  }catch(e){}
+  playSound(goal ? "goal" : "save", 0.9);
+  if(goal) setTimeout(()=>playSound("crowd",0.5),120);
 }
 $("createBtn").onclick=()=>socket.emit("room:create",{name:name()});
 $("joinBtn").onclick=()=>socket.emit("room:join",{name:name(),code:$("joinCode").value});
